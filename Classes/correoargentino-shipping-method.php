@@ -612,14 +612,34 @@ if (!class_exists('WC_Correo_Argentino_Shipping_Method')) {
 
             $metodo_envio = $this->get_option('metodo_envio');
             $tipo_servicio = $this->get_option('tipo_servicio');
+            $free_shipping_threshold = $this->get_option('free_shipping_threshold');
 
             if (isset($ratesArray[$tipo_servicio . 'P' . $metodo_envio])) {
                 $rate = $ratesArray[$tipo_servicio . 'P' . $metodo_envio];
+                
+                // Calcular el subtotal del carrito (sin impuestos ni envío)
+                $cart_subtotal = WC()->cart->get_subtotal();
+                
+                // Determinar si el envío debe ser gratuito
+                $is_free_shipping = false;
+                if (!empty($free_shipping_threshold) && is_numeric($free_shipping_threshold)) {
+                    $is_free_shipping = $cart_subtotal >= floatval($free_shipping_threshold);
+                }
+                
+                // Calcular el costo final del envío
+                $final_cost = $is_free_shipping ? 0 : $rate['totalPrice'];
+                
+                // Crear etiqueta personalizada si es envío gratuito
+                $shipping_label = $this->title;
+                if ($is_free_shipping) {
+                    $shipping_label .= ' - ' . __('Envío gratuito', 'correoargentino');
+                }
+                
                 // Register the rate
                 $this->add_rate([
                     'id' => $this->id . '_' . $this->instance_id,
-                    'label' => $this->title,
-                    'cost' => $rate['totalPrice'],
+                    'label' => $shipping_label,
+                    'cost' => $final_cost,
                     'calc_tax' => '',
                     'meta_data' => array(
                         CA_IS_BRANCH => $rate['deliveredType'] === 'S' ? true : false,
@@ -627,7 +647,10 @@ if (!class_exists('WC_Correo_Argentino_Shipping_Method')) {
                         CA_CHOSEN_PRODUCT_TYPE => $rate['serviceCode'],
                         CA_CHOSEN_BRANCH => null,
                         CA_CHOSEN_BRANCH_NAME => null,
-                        CA_CHOSEN_BRANCH_ZIP_CODE => null
+                        CA_CHOSEN_BRANCH_ZIP_CODE => null,
+                        'is_free_shipping' => $is_free_shipping,
+                        'original_cost' => $rate['totalPrice'],
+                        'free_shipping_threshold' => $free_shipping_threshold
                     )
                 ]);
             }

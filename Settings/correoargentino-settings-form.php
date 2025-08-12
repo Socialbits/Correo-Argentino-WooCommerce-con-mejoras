@@ -366,6 +366,17 @@ class CorreoArgentinoAdminForm
                         'D' => 'A Domicilio',
                     ]
                 ],
+                'free_shipping_threshold' => [
+                    'title'           => __('Umbral para envío gratuito', 'correoargentino'),
+                    'type'            => 'number',
+                    'description'     => __('Monto mínimo del carrito para que el envío sea gratuito. Dejar vacío para deshabilitar.', 'correoargentino'),
+                    'desc_tip'        => true,
+                    'custom_attributes' => [
+                        'step' => '0.01',
+                        'min' => '0'
+                    ],
+                    'default'         => '',
+                ],
 
             ],
             [

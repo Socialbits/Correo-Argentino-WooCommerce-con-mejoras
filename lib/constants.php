@@ -85,6 +85,7 @@ const CA_MAX_WEIGHT_PAQ_AR = 25000; // 25kg
 const CA_MAX_LENGTH_PAQ_AR = 250;   // 250cm
 const CA_MAX_WEIGHT_MI_CORREO = 50000; // 25kg
 const CA_MAX_LENGTH_MI_CORREO = 300;   // 250cm
+const CA_FREE_SHIPPING_THRESHOLD = CA_PLUGIN_NAMESPACE . '_free_shipping_threshold';
 // Isolated strings
 const STREET_NUMBER = 'Altura, piso y departamento';
 const PAQ_AR = "paq.ar";

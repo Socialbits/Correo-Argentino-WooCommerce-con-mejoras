@@ -2,3 +2,83 @@ tr:has(.wc-hidden-field) {
     display: none;
 }
 
+/* Estilos para mensajes de envío gratuito */
+.correoargentino-free-shipping-info,
+.correoargentino-free-shipping-success {
+    margin: 15px 0;
+    padding: 12px 15px;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 1.4;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.correoargentino-free-shipping-info {
+    background-color: #e7f3ff;
+    border: 1px solid #b3d9ff;
+    color: #0066cc;
+}
+
+.correoargentino-free-shipping-success {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+
+.correoargentino-free-shipping-info .dashicons,
+.correoargentino-free-shipping-success .dashicons {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+}
+
+.correoargentino-free-shipping-info.checkout,
+.correoargentino-free-shipping-success.checkout {
+    margin: 20px 0;
+    font-size: 15px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .correoargentino-free-shipping-info,
+    .correoargentino-free-shipping-success {
+        font-size: 13px;
+        padding: 10px 12px;
+    }
+    
+    .correoargentino-free-shipping-info .dashicons,
+    .correoargentino-free-shipping-success .dashicons {
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+    }
+}
+
+/* Estilos para información de envío gratuito en admin */
+.correoargentino-admin-info {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 15px;
+    margin: 15px 0;
+}
+
+.correoargentino-admin-info h4 {
+    margin: 0 0 10px 0;
+    color: #495057;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.correoargentino-admin-info p {
+    margin: 5px 0;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.correoargentino-admin-info strong {
+    color: #495057;
+}
+

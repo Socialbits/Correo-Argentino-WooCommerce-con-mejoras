@@ -42,6 +42,7 @@ register_activation_hook(__FILE__, function () {
         'cellphone' => null,
         'phone' => null,
         'observation' => null,
+        'free_shipping_threshold' => null,
     ];
 
     $credentialsInitialValues = [
@@ -673,3 +674,22 @@ function on_order_cancelled_handler($order_id)
     }
     return false;
 }
+
+/**
+ * Enqueue scripts and styles
+ */
+function correoargentino_enqueue_scripts() {
+    // Solo cargar en páginas relevantes
+    if (is_cart() || is_checkout() || is_shop() || is_product()) {
+        wp_enqueue_style('correoargentino-styles', plugin_dir_url(__FILE__) . 'css/woocommerce-correoargentino.css', array(), '3.0.3');
+        
+        wp_enqueue_script('correoargentino-free-shipping', plugin_dir_url(__FILE__) . 'js/free-shipping-messages.js', array('jquery'), '3.0.3', true);
+        
+        // Localizar script con variables AJAX
+        wp_localize_script('correoargentino-free-shipping', 'wc_correoargentino_ajax', array(
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce('wc_correoargentino_nonce')
+        ));
+    }
+}
+add_action('wp_enqueue_scripts', 'correoargentino_enqueue_scripts');
