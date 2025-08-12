@@ -1,0 +1,100 @@
+{
+  "provincias": [
+    {
+      "iso_id": "N",
+      "nombre": "Misiones"
+    },
+    {
+      "iso_id": "D",
+      "nombre": "San Luis"
+    },
+    {
+      "iso_id": "J",
+      "nombre": "San Juan"
+    },
+    {
+      "iso_id": "E",
+      "nombre": "Entre Ríos"
+    },
+    {
+      "iso_id": "Z",
+      "nombre": "Santa Cruz"
+    },
+    {
+      "iso_id": "R",
+      "nombre": "Río Negro"
+    },
+    {
+      "iso_id": "U",
+      "nombre": "Chubut"
+    },
+    {
+      "iso_id": "X",
+      "nombre": "Córdoba"
+    },
+    {
+      "iso_id": "M",
+      "nombre": "Mendoza"
+    },
+    {
+      "iso_id": "F",
+      "nombre": "La Rioja"
+    },
+    {
+      "iso_id": "K",
+      "nombre": "Catamarca"
+    },
+    {
+      "iso_id": "L",
+      "nombre": "La Pampa"
+    },
+    {
+      "iso_id": "G",
+      "nombre": "Santiago del Estero"
+    },
+    {
+      "iso_id": "W",
+      "nombre": "Corrientes"
+    },
+    {
+      "iso_id": "S",
+      "nombre": "Santa Fe"
+    },
+    {
+      "iso_id": "T",
+      "nombre": "Tucumán"
+    },
+    {
+      "iso_id": "Q",
+      "nombre": "Neuquén"
+    },
+    {
+      "iso_id": "A",
+      "nombre": "Salta"
+    },
+    {
+      "iso_id": "H",
+      "nombre": "Chaco"
+    },
+    {
+      "iso_id": "P",
+      "nombre": "Formosa"
+    },
+    {
+      "iso_id": "Y",
+      "nombre": "Jujuy"
+    },
+    {
+      "iso_id": "C",
+      "nombre": "Ciudad Autónoma de Buenos Aires"
+    },
+    {
+      "iso_id": "B",
+      "nombre": "Buenos Aires"
+    },
+    {
+      "iso_id": "V",
+      "nombre": "Tierra del Fuego"
+    }
+  ]
+}

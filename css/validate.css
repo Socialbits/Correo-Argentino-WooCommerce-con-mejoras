@@ -1,0 +1,22 @@
+span.arrow {
+    margin-left: 6px;
+    height: 17px;
+    background: url('http://i45.tinypic.com/f9ifz6.png') no-repeat left center;
+}
+
+label.error {
+    padding: 1px 5px 0px 5px;
+    font-size: small;
+    display: block;
+    color: #ff2b39;
+}
+
+.input-text.error {
+    border-color: #ff2b39;
+}
+
+#the-count {
+    float: right;
+    padding: 0.1rem 0 0 0;
+    font-size: 0.875rem;
+}

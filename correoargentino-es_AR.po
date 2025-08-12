@@ -1,0 +1,198 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Correo Argentino\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-06-26 23:52+0000\n"
+"PO-Revision-Date: 2022-06-27 00:05+0000\n"
+"Last-Translator: Franklin Alberto Ruiz Guerra\n"
+"Language-Team: Español de Argentina\n"
+"Language: es_AR\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.6.2; wp-5.8.2\n"
+"X-Domain: correoargentino"
+
+#: Settings/correoargentino-settings-form.php:22
+msgid "Agreement"
+msgstr "Acuerdo"
+
+#: Settings/correoargentino-settings-form.php:28
+msgid "API Key"
+msgstr "Clave API"
+
+#: Settings/correoargentino-settings-form.php:38
+msgid "Business name"
+msgstr "Nombre comercial"
+
+#: Orders/correoargentino-metabox.php:72
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: Settings/correoargentino-settings-form.php:106
+#: Settings/correoargentino-settings-form.php:117
+msgid "Cellphone"
+msgstr "Celular"
+
+#: Settings/correoargentino-settings-form.php:101
+#: Settings/correoargentino-settings-form.php:112
+msgid "Cellphone area code"
+msgstr "Código de área celular"
+
+#: Settings/correoargentino-settings-form.php:61
+msgid "City"
+msgstr "Ciudad"
+
+#. Name of the plugin
+#: correoargentino-shipping.php:50
+msgid "Correo Argentino"
+msgstr "Correo Argentino"
+
+#: correoargentino-shipping.php:54
+msgid "Correo Argentino Shipping"
+msgstr "Correo Argentino Envios "
+
+#: correoargentino-shipping.php:51
+msgid "Custom Shipping Method for Correo Argentino"
+msgstr "Extensión de método de envío para Correo Argentino"
+
+#: Settings/correoargentino-settings-form.php:67
+msgid "Department"
+msgstr "Departamento"
+
+#: Settings/correoargentino-settings-form.php:30
+msgid ""
+"Don't have an account yet? <a href=\"https://www.correoargentino.com.ar/\">"
+"Create a new one</a>"
+msgstr ""
+"¿No tenés cuenta? <a href=\"https://www.correoargentino.com.ar/\">Creá una "
+"nueva</a>"
+
+#: Settings/correoargentino-settings-form.php:47
+msgid "Email"
+msgstr "Correo electrónico"
+
+#: Settings/correoargentino-settings-form.php:40
+msgid "Enter a business or personal name"
+msgstr "Ingresá un nombre personal o comercial"
+
+#: Settings/correoargentino-settings-form.php:48
+msgid "Enter the following format: correoargentino@correo.com"
+msgstr "Ingresá en el siguiente formato: correoargentino@correo.com"
+
+#: Settings/correoargentino-settings-form.php:73
+msgid "Floor"
+msgstr "Piso"
+
+#: Settings/correoargentino-settings-form.php:21
+msgid "i.e: 10000"
+msgstr "Ej:1000"
+
+#: Settings/correoargentino-settings-form.php:46
+msgid "i.e: info@mycompany.com"
+msgstr "Ej: info@miempresa.com"
+
+#: correoargentino-shipping.php:75
+msgid "Invalid agreement"
+msgstr "Acuerdo no válido"
+
+#: correoargentino-shipping.php:83
+msgid "Invalid API Key"
+msgstr "Clave API no válida"
+
+#: correoargentino-shipping.php:123
+msgid "Invalid cellphone area code"
+msgstr "Código de área de celular no válido"
+
+#: correoargentino-shipping.php:131
+msgid "Invalid cellphone number"
+msgstr "Número de celular no válido"
+
+#: correoargentino-shipping.php:91
+msgid "Invalid city name"
+msgstr "Nombre de ciudad no válido"
+
+#: correoargentino-shipping.php:115
+msgid "Invalid postal code"
+msgstr "Código postal no válido"
+
+#: correoargentino-shipping.php:99
+msgid "Invalid street name"
+msgstr "Nombre de calle no válido"
+
+#: correoargentino-shipping.php:107
+msgid "Invalid street number"
+msgstr "Altura de calle no válida"
+
+#: correoargentino-shipping.php:139
+msgid "Invalid telephone area code"
+msgstr "Código de área no válido"
+
+#: correoargentino-shipping.php:147
+msgid "Invalid telephone number"
+msgstr "Número de teléfono no válido"
+
+#: Settings/correoargentino-settings-form.php:123
+msgid "Observation"
+msgstr "Observacion"
+
+#: correoargentino-shipping.php:235
+#, php-format
+msgid "OOPS, %d kg increase the maximum weight of %d kg for %s"
+msgstr ""
+
+#. Description of the plugin
+msgid "Permita a sus compradores realizar envíos a través de Correo Argentino"
+msgstr ""
+
+#: Settings/correoargentino-settings-form.php:96
+msgid ""
+"Please enter your postal code. You can find it <a href=\"https://www."
+"correoargentino.com.ar/formularios/cpa\">here</a>"
+msgstr "Por favor, ingrese su código postal. Podés encontrarlo aquí"
+
+#: Settings/correoargentino-settings-form.php:93
+msgid "Postal code"
+msgstr "Código Postal"
+
+#: Orders/correoargentino-metabox.php:72
+msgid "See label"
+msgstr "Ver rótulo"
+
+#: Settings/correoargentino-settings-form.php:53
+msgid "State"
+msgstr "Provincia"
+
+#: Settings/correoargentino-settings-form.php:79
+msgid "Street"
+msgstr "Calle"
+
+#: Settings/correoargentino-settings-form.php:86
+msgid "Street number"
+msgstr "Altura"
+
+#: Orders/correoargentino-metabox.php:49
+msgid "The order has not Correo argentino as shipping method"
+msgstr "La orden no tiene a CorreoArgentino como método de envío"
+
+#: Orders/correoargentino-metabox.php:56
+msgid "The order has not Correo Argentino as shipping method."
+msgstr "La orden no tiene a CorreoArgentino como método de envío."
+
+#: Orders/correoargentino-metabox.php:64
+msgid "The order is not placed yet."
+msgstr "La orden no ha sido registrada aún"
+
+#. Author of the plugin
+msgid "Correo Argentino."
+msgstr "Correo Argentino"
+
+#. Author URI of the plugin
+msgid "www.correoargentino.com.ar/"
+msgstr ""
+
+#: Settings/correoargentino-settings-form.php:41
+msgid "You can use a personal or business name."
+msgstr "Podés usar uno personal o un nombre comercial"

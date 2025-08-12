@@ -1,0 +1,4 @@
+tr:has(.wc-hidden-field) {
+    display: none;
+}
+

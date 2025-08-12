@@ -1,0 +1,25 @@
+.select2-container {
+  max-width: 50vw !important;
+  width: 100% !important;
+  box-sizing: border-box;
+}
+
+.select2-container .select2-selection--single {
+  max-width: 100%;
+  width: 100% !important;
+  overflow:clip;
+}
+
+.select2-container .select2-results__option {
+  font-size: 13px;
+  white-space: normal;
+  word-wrap: break-word;
+}
+.select2-container .select2-selection__rendered {
+  white-space: normal !important;
+  overflow-y: auto !important;
+  text-overflow: ellipsis !important;
+  font-size: 13px;
+  text-align: left;
+  text-indent: 0.8rem;
+}
