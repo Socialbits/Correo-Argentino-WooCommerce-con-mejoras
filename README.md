@@ -36,7 +36,6 @@ Este plugin es una versión mejorada del **plugin oficial de Correo Argentino pa
 - WordPress 5.0+
 - WooCommerce 3.0+
 - PHP 7.4+
-- Plugin oficial de Correo Argentino
 
 ### Pasos de Instalación
 1. **Descargar**: Clona este repositorio en tu servidor
