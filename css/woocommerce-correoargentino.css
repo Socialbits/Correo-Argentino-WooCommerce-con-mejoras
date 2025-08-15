@@ -82,3 +82,67 @@ tr:has(.wc-hidden-field) {
     color: #495057;
 }
 
+/* Estilos específicos para WooCommerce Blocks */
+.correoargentino-free-shipping-info.blocks-cart,
+.correoargentino-free-shipping-success.blocks-cart,
+.correoargentino-free-shipping-info.blocks-checkout,
+.correoargentino-free-shipping-success.blocks-checkout {
+    margin: 15px 0;
+    padding: 12px 15px;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 1.4;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+}
+
+.correoargentino-free-shipping-info.blocks-cart,
+.correoargentino-free-shipping-info.blocks-checkout {
+    background-color: #e7f3ff;
+    border: 1px solid #b3d9ff;
+    color: #0066cc;
+}
+
+.correoargentino-free-shipping-success.blocks-cart,
+.correoargentino-free-shipping-success.blocks-checkout {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+
+/* Estilos para mini carrito */
+.correoargentino-free-shipping-info.mini-cart,
+.correoargentino-free-shipping-success.mini-cart {
+    margin: 10px 0;
+    padding: 8px 10px;
+    font-size: 12px;
+    border-radius: 3px;
+}
+
+/* Estilos para resumen del carrito */
+.correoargentino-free-shipping-info.cart-summary,
+.correoargentino-free-shipping-success.cart-summary {
+    margin: 10px 0;
+    padding: 10px 12px;
+    font-size: 13px;
+}
+
+/* Estilos para resumen del checkout */
+.correoargentino-free-shipping-info.checkout-summary,
+.correoargentino-free-shipping-success.checkout-summary {
+    margin: 15px 0;
+    padding: 12px 15px;
+    font-size: 14px;
+}
+
+/* Estilos para formulario de checkout */
+.correoargentino-free-shipping-info.checkout-form,
+.correoargentino-free-shipping-success.checkout-form {
+    margin: 20px 0;
+    padding: 15px 18px;
+    font-size: 15px;
+}
+

@@ -847,6 +847,210 @@ function display_free_shipping_message_checkout() {
 }
 
 /**
+ * Mostrar mensaje de envío gratuito en WooCommerce Blocks (Carrito)
+ */
+add_action('woocommerce_blocks_cart_block_registry', 'display_free_shipping_message_blocks_cart');
+function display_free_shipping_message_blocks_cart() {
+    if (!WC()->cart->needs_shipping()) {
+        return;
+    }
+    
+    $chosen_shipping_methods = WC()->session->get('chosen_shipping_methods');
+    if (empty($chosen_shipping_methods)) {
+        return;
+    }
+    
+    $chosen_method = $chosen_shipping_methods[0];
+    if (strpos($chosen_method, CA_PLUGIN_ID) === 0) {
+        $shipping_method_id = (int) substr($chosen_method, strlen(CA_PLUGIN_ID) + 1);
+        $shipping_method = new WC_Correo_Argentino_Shipping_Method($shipping_method_id);
+        $free_shipping_threshold = $shipping_method->get_option('free_shipping_threshold');
+        
+        if (!empty($free_shipping_threshold) && is_numeric($free_shipping_threshold)) {
+            $cart_subtotal = WC()->cart->get_subtotal();
+            $remaining = floatval($free_shipping_threshold) - $cart_subtotal;
+            
+            if ($remaining > 0) {
+                echo '<div class="woocommerce-info correoargentino-free-shipping-info blocks-cart">';
+                echo '<span class="dashicons dashicons-info"></span> ';
+                printf(
+                    __('¡Agregá productos por %s más y obtené envío gratuito con Correo Argentino!', 'correoargentino'),
+                    wc_price($remaining)
+                );
+                echo '</div>';
+            } else {
+                echo '<div class="woocommerce-message correoargentino-free-shipping-success blocks-cart">';
+                echo '<span class="dashicons dashicons-yes-alt"></span> ';
+                echo __('¡Felicitaciones! Tu pedido califica para envío gratuito con Correo Argentino.', 'correoargentino');
+                echo '</div>';
+            }
+        }
+    }
+}
+
+/**
+ * Mostrar mensaje de envío gratuito en WooCommerce Blocks (Checkout)
+ */
+add_action('woocommerce_blocks_checkout_block_registry', 'display_free_shipping_message_blocks_checkout');
+function display_free_shipping_message_blocks_checkout() {
+    if (!WC()->cart->needs_shipping()) {
+        return;
+    }
+    
+    // Solo mostrar si hay métodos de envío de Correo Argentino disponibles
+    $available_methods = WC()->shipping()->get_shipping_methods();
+    $has_ca_methods = false;
+    $free_shipping_threshold = 0;
+    
+    foreach ($available_methods as $method) {
+        if ($method instanceof WC_Correo_Argentino_Shipping_Method) {
+            $has_ca_methods = true;
+            $threshold = $method->get_option('free_shipping_threshold');
+            if (!empty($threshold) && is_numeric($threshold)) {
+                $free_shipping_threshold = max($free_shipping_threshold, floatval($threshold));
+            }
+        }
+    }
+    
+    if ($has_ca_methods && $free_shipping_threshold > 0) {
+        $cart_subtotal = WC()->cart->get_subtotal();
+        $remaining = $free_shipping_threshold - $cart_subtotal;
+        
+        if ($remaining > 0) {
+            echo '<div class="woocommerce-info correoargentino-free-shipping-info blocks-checkout">';
+            echo '<span class="dashicons dashicons-info"></span> ';
+            printf(
+                __('¡Agregá productos por %s más y obtené envío gratuito con Correo Argentino!', 'correoargentino'),
+                wc_price($remaining)
+            );
+            echo '</div>';
+        } else {
+            echo '<div class="woocommerce-message correoargentino-free-shipping-success blocks-checkout">';
+            echo '<span class="dashicons dashicons-yes-alt"></span> ';
+            echo __('¡Tu pedido califica para envío gratuito con Correo Argentino!', 'correoargentino');
+            echo '</div>';
+        }
+    }
+}
+
+/**
+ * Hooks específicos para WooCommerce Blocks
+ */
+add_action('woocommerce_blocks_cart_block_registry', 'add_free_shipping_hooks_blocks_cart');
+function add_free_shipping_hooks_blocks_cart() {
+    // Hook para mostrar mensaje antes del contenido del carrito
+    add_action('woocommerce_blocks_cart_block_content', 'display_free_shipping_message_blocks_cart', 5);
+    
+    // Hook para mostrar mensaje después del header del carrito
+    add_action('woocommerce_blocks_cart_block_header', 'display_free_shipping_message_blocks_cart', 15);
+}
+
+add_action('woocommerce_blocks_checkout_block_registry', 'add_free_shipping_hooks_blocks_checkout');
+function add_free_shipping_hooks_blocks_checkout() {
+    // Hook para mostrar mensaje antes del contenido del checkout
+    add_action('woocommerce_blocks_checkout_block_content', 'display_free_shipping_message_blocks_checkout', 5);
+    
+    // Hook para mostrar mensaje después del header del checkout
+    add_action('woocommerce_blocks_checkout_block_header', 'display_free_shipping_message_blocks_checkout', 15);
+}
+
+/**
+ * Hooks alternativos para WooCommerce Blocks usando filtros de contenido
+ */
+add_filter('woocommerce_blocks_cart_block_content', 'add_free_shipping_message_to_cart_blocks', 10, 1);
+function add_free_shipping_message_to_cart_blocks($content) {
+    if (!WC()->cart->needs_shipping()) {
+        return $content;
+    }
+    
+    $chosen_shipping_methods = WC()->session->get('chosen_shipping_methods');
+    if (empty($chosen_shipping_methods)) {
+        return $content;
+    }
+    
+    $chosen_method = $chosen_shipping_methods[0];
+    if (strpos($chosen_method, CA_PLUGIN_ID) === 0) {
+        $shipping_method_id = (int) substr($chosen_method, strlen(CA_PLUGIN_ID) + 1);
+        $shipping_method = new WC_Correo_Argentino_Shipping_Method($shipping_method_id);
+        $free_shipping_threshold = $shipping_method->get_option('free_shipping_threshold');
+        
+        if (!empty($free_shipping_threshold) && is_numeric($free_shipping_threshold)) {
+            $cart_subtotal = WC()->cart->get_subtotal();
+            $remaining = floatval($free_shipping_threshold) - $cart_subtotal;
+            
+            $message = '';
+            if ($remaining > 0) {
+                $message = '<div class="woocommerce-info correoargentino-free-shipping-info blocks-cart">';
+                $message .= '<span class="dashicons dashicons-info"></span> ';
+                $message .= sprintf(
+                    __('¡Agregá productos por %s más y obtené envío gratuito con Correo Argentino!', 'correoargentino'),
+                    wc_price($remaining)
+                );
+                $message .= '</div>';
+            } else {
+                $message = '<div class="woocommerce-message correoargentino-free-shipping-success blocks-cart">';
+                $message .= '<span class="dashicons dashicons-yes-alt"></span> ';
+                $message .= __('¡Felicitaciones! Tu pedido califica para envío gratuito con Correo Argentino.', 'correoargentino');
+                $message .= '</div>';
+            }
+            
+            // Insertar el mensaje al principio del contenido
+            return $message . $content;
+        }
+    }
+    
+    return $content;
+}
+
+add_filter('woocommerce_blocks_checkout_block_content', 'add_free_shipping_message_to_checkout_blocks', 10, 1);
+function add_free_shipping_message_to_checkout_blocks($content) {
+    if (!WC()->cart->needs_shipping()) {
+        return $content;
+    }
+    
+    // Solo mostrar si hay métodos de envío de Correo Argentino disponibles
+    $available_methods = WC()->shipping()->get_shipping_methods();
+    $has_ca_methods = false;
+    $free_shipping_threshold = 0;
+    
+    foreach ($available_methods as $method) {
+        if ($method instanceof WC_Correo_Argentino_Shipping_Method) {
+            $has_ca_methods = true;
+            $threshold = $method->get_option('free_shipping_threshold');
+            if (!empty($threshold) && is_numeric($threshold)) {
+                $free_shipping_threshold = max($free_shipping_threshold, floatval($threshold));
+            }
+        }
+    }
+    
+    if ($has_ca_methods && $free_shipping_threshold > 0) {
+        $cart_subtotal = WC()->cart->get_subtotal();
+        $remaining = $free_shipping_threshold - $cart_subtotal;
+        
+        $message = '';
+        if ($remaining > 0) {
+            $message = '<div class="woocommerce-info correoargentino-free-shipping-info blocks-checkout">';
+            $message .= '<span class="dashicons dashicons-info"></span> ';
+            $message .= sprintf(
+                __('¡Agregá productos por %s más y obtené envío gratuito con Correo Argentino!', 'correoargentino'),
+                wc_price($remaining)
+            );
+            $message .= '</div>';
+        } else {
+            $message = '<div class="woocommerce-message correoargentino-free-shipping-success blocks-checkout">';
+            $message .= '<span class="dashicons dashicons-yes-alt"></span> ';
+            $message .= __('¡Tu pedido califica para envío gratuito con Correo Argentino!', 'correoargentino');
+            $message .= '</div>';
+        }
+        
+        // Insertar el mensaje al principio del contenido
+        return $message . $content;
+    }
+    
+    return $content;
+}
+
+/**
  * Actualizar mensajes de envío gratuito dinámicamente
  */
 add_action('woocommerce_cart_updated', 'update_free_shipping_messages');
@@ -957,6 +1161,241 @@ function display_free_shipping_info_admin($order) {
                 echo '</div>';
             }
             break;
+        }
+    }
+}
+
+/**
+ * Hooks adicionales para WooCommerce Blocks
+ */
+add_action('woocommerce_blocks_cart_block_registry', 'add_additional_blocks_hooks');
+function add_additional_blocks_hooks() {
+    // Hook para el mini carrito
+    add_action('woocommerce_mini_cart_contents', 'display_free_shipping_message_mini_cart', 5);
+    
+    // Hook para el carrito completo
+    add_action('woocommerce_cart_contents', 'display_free_shipping_message_cart_blocks', 5);
+    
+    // Hook para el resumen del carrito
+    add_action('woocommerce_cart_collaterals', 'display_free_shipping_message_cart_summary', 5);
+}
+
+add_action('woocommerce_blocks_checkout_block_registry', 'add_additional_checkout_blocks_hooks');
+function add_additional_checkout_blocks_hooks() {
+    // Hook para el resumen del checkout
+    add_action('woocommerce_checkout_order_review', 'display_free_shipping_message_checkout_summary', 5);
+    
+    // Hook para el formulario de checkout
+    add_action('woocommerce_checkout_before_customer_details', 'display_free_shipping_message_checkout_form', 5);
+}
+
+/**
+ * Mostrar mensaje de envío gratuito en el mini carrito
+ */
+function display_free_shipping_message_mini_cart() {
+    if (!WC()->cart->needs_shipping()) {
+        return;
+    }
+    
+    $chosen_shipping_methods = WC()->session->get('chosen_shipping_methods');
+    if (empty($chosen_shipping_methods)) {
+        return;
+    }
+    
+    $chosen_method = $chosen_shipping_methods[0];
+    if (strpos($chosen_method, CA_PLUGIN_ID) === 0) {
+        $shipping_method_id = (int) substr($chosen_method, strlen(CA_PLUGIN_ID) + 1);
+        $shipping_method = new WC_Correo_Argentino_Shipping_Method($shipping_method_id);
+        $free_shipping_threshold = $shipping_method->get_option('free_shipping_threshold');
+        
+        if (!empty($free_shipping_threshold) && is_numeric($free_shipping_threshold)) {
+            $cart_subtotal = WC()->cart->get_subtotal();
+            $remaining = floatval($free_shipping_threshold) - $cart_subtotal;
+            
+            if ($remaining > 0) {
+                echo '<div class="woocommerce-info correoargentino-free-shipping-info mini-cart">';
+                echo '<span class="dashicons dashicons-info"></span> ';
+                printf(
+                    __('¡Agregá productos por %s más y obtené envío gratuito!', 'correoargentino'),
+                    wc_price($remaining)
+                );
+                echo '</div>';
+            } else {
+                echo '<div class="woocommerce-message correoargentino-free-shipping-success mini-cart">';
+                echo '<span class="dashicons dashicons-yes-alt"></span> ';
+                echo __('¡Envío gratuito!', 'correoargentino');
+                echo '</div>';
+            }
+        }
+    }
+}
+
+/**
+ * Mostrar mensaje de envío gratuito en el carrito (bloques)
+ */
+function display_free_shipping_message_cart_blocks() {
+    if (!WC()->cart->needs_shipping()) {
+        return;
+    }
+    
+    $chosen_shipping_methods = WC()->session->get('chosen_shipping_methods');
+    if (empty($chosen_shipping_methods)) {
+        return;
+    }
+    
+    $chosen_method = $chosen_shipping_methods[0];
+    if (strpos($chosen_method, CA_PLUGIN_ID) === 0) {
+        $shipping_method_id = (int) substr($chosen_method, strlen(CA_PLUGIN_ID) + 1);
+        $shipping_method = new WC_Correo_Argentino_Shipping_Method($shipping_method_id);
+        $free_shipping_threshold = $shipping_method->get_option('free_shipping_threshold');
+        
+        if (!empty($free_shipping_threshold) && is_numeric($free_shipping_threshold)) {
+            $cart_subtotal = WC()->cart->get_subtotal();
+            $remaining = floatval($free_shipping_threshold) - $cart_subtotal;
+            
+            if ($remaining > 0) {
+                echo '<div class="woocommerce-info correoargentino-free-shipping-info cart-blocks">';
+                echo '<span class="dashicons dashicons-info"></span> ';
+                printf(
+                    __('¡Agregá productos por %s más y obtené envío gratuito con Correo Argentino!', 'correoargentino'),
+                    wc_price($remaining)
+                );
+                echo '</div>';
+            } else {
+                echo '<div class="woocommerce-message correoargentino-free-shipping-success cart-blocks">';
+                echo '<span class="dashicons dashicons-yes-alt"></span> ';
+                echo __('¡Felicitaciones! Tu pedido califica para envío gratuito con Correo Argentino.', 'correoargentino');
+                echo '</div>';
+            }
+        }
+    }
+}
+
+/**
+ * Mostrar mensaje de envío gratuito en el resumen del carrito
+ */
+function display_free_shipping_message_cart_summary() {
+    if (!WC()->cart->needs_shipping()) {
+        return;
+    }
+    
+    $chosen_shipping_methods = WC()->session->get('chosen_shipping_methods');
+    if (empty($chosen_shipping_methods)) {
+        return;
+    }
+    
+    $chosen_method = $chosen_shipping_methods[0];
+    if (strpos($chosen_method, CA_PLUGIN_ID) === 0) {
+        $shipping_method_id = (int) substr($chosen_method, strlen(CA_PLUGIN_ID) + 1);
+        $shipping_method = new WC_Correo_Argentino_Shipping_Method($shipping_method_id);
+        $free_shipping_threshold = $shipping_method->get_option('free_shipping_threshold');
+        
+        if (!empty($free_shipping_threshold) && is_numeric($free_shipping_threshold)) {
+            $cart_subtotal = WC()->cart->get_subtotal();
+            $remaining = floatval($free_shipping_threshold) - $cart_subtotal;
+            
+            if ($remaining > 0) {
+                echo '<div class="woocommerce-info correoargentino-free-shipping-info cart-summary">';
+                echo '<span class="dashicons dashicons-info"></span> ';
+                printf(
+                    __('¡Agregá productos por %s más y obtené envío gratuito con Correo Argentino!', 'correoargentino'),
+                    wc_price($remaining)
+                );
+                echo '</div>';
+            } else {
+                echo '<div class="woocommerce-message correoargentino-free-shipping-success cart-summary">';
+                echo '<span class="dashicons dashicons-yes-alt"></span> ';
+                echo __('¡Felicitaciones! Tu pedido califica para envío gratuito con Correo Argentino.', 'correoargentino');
+                echo '</div>';
+            }
+        }
+    }
+}
+
+/**
+ * Mostrar mensaje de envío gratuito en el resumen del checkout
+ */
+function display_free_shipping_message_checkout_summary() {
+    if (!WC()->cart->needs_shipping()) {
+        return;
+    }
+    
+    // Solo mostrar si hay métodos de envío de Correo Argentino disponibles
+    $available_methods = WC()->shipping()->get_shipping_methods();
+    $has_ca_methods = false;
+    $free_shipping_threshold = 0;
+    
+    foreach ($available_methods as $method) {
+        if ($method instanceof WC_Correo_Argentino_Shipping_Method) {
+            $has_ca_methods = true;
+            $threshold = $method->get_option('free_shipping_threshold');
+            if (!empty($threshold) && is_numeric($threshold)) {
+                $free_shipping_threshold = max($free_shipping_threshold, floatval($threshold));
+            }
+        }
+    }
+    
+    if ($has_ca_methods && $free_shipping_threshold > 0) {
+        $cart_subtotal = WC()->cart->get_subtotal();
+        $remaining = $free_shipping_threshold - $cart_subtotal;
+        
+        if ($remaining > 0) {
+            echo '<div class="woocommerce-info correoargentino-free-shipping-info checkout-summary">';
+            echo '<span class="dashicons dashicons-info"></span> ';
+            printf(
+                __('¡Agregá productos por %s más y obtené envío gratuito con Correo Argentino!', 'correoargentino'),
+                wc_price($remaining)
+            );
+            echo '</div>';
+        } else {
+            echo '<div class="woocommerce-message correoargentino-free-shipping-success checkout-summary">';
+            echo '<span class="dashicons dashicons-yes-alt"></span> ';
+            echo __('¡Tu pedido califica para envío gratuito con Correo Argentino!', 'correoargentino');
+            echo '</div>';
+        }
+    }
+}
+
+/**
+ * Mostrar mensaje de envío gratuito en el formulario de checkout
+ */
+function display_free_shipping_message_checkout_form() {
+    if (!WC()->cart->needs_shipping()) {
+        return;
+    }
+    
+    // Solo mostrar si hay métodos de envío de Correo Argentino disponibles
+    $available_methods = WC()->shipping()->get_shipping_methods();
+    $has_ca_methods = false;
+    $free_shipping_threshold = 0;
+    
+    foreach ($available_methods as $method) {
+        if ($method instanceof WC_Correo_Argentino_Shipping_Method) {
+            $has_ca_methods = true;
+            $threshold = $method->get_option('free_shipping_threshold');
+            if (!empty($threshold) && is_numeric($threshold)) {
+                $free_shipping_threshold = max($free_shipping_threshold, floatval($threshold));
+            }
+        }
+    }
+    
+    if ($has_ca_methods && $free_shipping_threshold > 0) {
+        $cart_subtotal = WC()->cart->get_subtotal();
+        $remaining = $free_shipping_threshold - $cart_subtotal;
+        
+        if ($remaining > 0) {
+            echo '<div class="woocommerce-info correoargentino-free-shipping-info checkout-form">';
+            echo '<span class="dashicons dashicons-info"></span> ';
+            printf(
+                __('¡Agregá productos por %s más y obtené envío gratuito con Correo Argentino!', 'correoargentino'),
+                wc_price($remaining)
+            );
+            echo '</div>';
+        } else {
+            echo '<div class="woocommerce-message correoargentino-free-shipping-success checkout-form">';
+            echo '<span class="dashicons dashicons-yes-alt"></span> ';
+            echo __('¡Tu pedido califica para envío gratuito con Correo Argentino!', 'correoargentino');
+            echo '</div>';
         }
     }
 }
